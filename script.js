@@ -49,7 +49,6 @@ function createMovieCards(data){
         btn.addEventListener("click",(e)=>{
             const currentCard = e.currentTarget.closest(".card");
             const otherDetailsElem = currentCard.querySelector(".other-details");
-            // console.log(otherDetailsElem);
             otherDetailsElem.classList.toggle("hide");
             if(btnClickedStatus[index]) {
                 e.currentTarget.innerHTML = "Hide";
