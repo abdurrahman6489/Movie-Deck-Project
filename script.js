@@ -1,32 +1,43 @@
 const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 const movieContainer = document.querySelector(".movie-container");
+const inputSearch = document.querySelector(".search");
+let searchedMovie = "";
 // console.log(movieContainer);
 let movies = [];
 let newMovies = [];
-async function makeApiCall(sortBy_Index=4){
+async function makeApiCall(sortBy_Index=4,string = ""){
     const response = await fetch("https://api.themoviedb.org/3/movie/top_rated?api_key=f531333d637d0c44abc85b3e74db2186&language=en-US&page=1");
     const data = await response.json();
     movies.length = 0;
     newMovies.length = 0;
     movies.push(...data.results);
     newMovies.push(...data.results);
-    if(sortBy_Index<4){
-        newMovies.sort((a,b)=>{
-            if(sortBy_Index === 0){
-                return b.vote_average - a.vote_average;
-            }
-            else if(sortBy_Index === 1){
-                return a.vote_average - b.vote_average;
-            }
-            else if(sortBy_Index === 2){
-                return b.release_date.localeCompare(a.release_date)  ;
-            }
-            else if(sortBy_Index === 3){
-                return a.release_date.localeCompare(b.release_date);
-            }
-        })
+    console.log(newMovies);
+    console.log("from api call",string);
+    if(string!=="") {
+        let newArray = newMovies.filter(movie=>movie.title.includes(string));
+        console.log(newArray);
+        createMovieCards(newArray);
     }
-    createMovieCards(newMovies);
+    else{
+        if(sortBy_Index<4){
+            newMovies.sort((a,b)=>{
+                if(sortBy_Index === 0){
+                    return b.vote_average - a.vote_average;
+                }
+                else if(sortBy_Index === 1){
+                    return a.vote_average - b.vote_average;
+                }
+                else if(sortBy_Index === 2){
+                    return b.release_date.localeCompare(a.release_date)  ;
+                }
+                else if(sortBy_Index === 3){
+                    return a.release_date.localeCompare(b.release_date);
+                }
+            })
+        }
+        createMovieCards(newMovies);
+    }   
 }
 function createMovieCards(data){
     data.forEach(movie=>{
@@ -101,4 +112,22 @@ function sortByRatingRelease(){
     makeApiCall(selectedIndex);
     }
 }
-
+inputSearch.addEventListener("input",(event) => {
+    searchedMovie = event.currentTarget.value;
+    console.log(searchedMovie);
+    updateDebounce(searchedMovie);
+})
+function debounce(cb, delay = 1000){
+    let timeout;
+    return (...args)=>{
+        clearTimeout(timeout);
+        timeout = setTimeout(()=>{
+            cb(...args);
+        },delay);
+    }
+}
+const updateDebounce = debounce((text)=>{
+    console.log("from debounce",text);
+    deleteMovieCards();
+    makeApiCall(4,text);
+})
