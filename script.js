@@ -2,6 +2,7 @@ const IMAGE_URL = "https://image.tmdb.org/t/p/w500";
 const movieContainer = document.querySelector(".movie-container");
 const inputSearch = document.querySelector(".search");
 let searchedMovie = "";
+let favoriteMovies = [];
 // console.log(movieContainer);
 let movies = [];
 let newMovies = [];
@@ -15,7 +16,7 @@ async function makeApiCall(sortBy_Index=4,string = ""){
     console.log(newMovies);
     console.log("from api call",string);
     if(string!=="") {
-        let newArray = newMovies.filter(movie=>movie.title.includes(string));
+        let newArray = newMovies.filter(movie=>movie.title.toLowerCase().includes(string.toLowerCase()));
         console.log(newArray);
         createMovieCards(newArray);
     }
@@ -41,17 +42,21 @@ async function makeApiCall(sortBy_Index=4,string = ""){
 }
 function createMovieCards(data){
     data.forEach(movie=>{
-        let {title,poster_path,vote_average, vote_count,id} = movie;
+        let {title,poster_path,vote_average, vote_count,id,release_date} = movie;
         const card = document.createElement("div");
         card.classList.add("card");
         card.innerHTML = `
         <img src="${IMAGE_URL+poster_path}" alt=${title}/>
         <div class="title">${title}</div>
         <div class="other-details hide">
-        <div class="vote-count">vote count : ${vote_count}</div>
+        <div class="vote-count">Release date : ${release_date}</div>
+        <div class="vote-count">No. of rating : ${vote_count}</div>
         <div class="vote-average">Rating : ${vote_average}</div>
         </div>
-        <button class="show-details" id="${id}">Show More</button>`;
+        <div class="show-details-favorite">
+        <button class="show-details" >Show More</button>
+        <button class="favorite" id="${id}" onclick=addFavorite(this)><i class="fa-sharp fa-regular fa-bookmark"></i></button>
+        </div>`;
         movieContainer.appendChild(card);
     })
     const showMoreBtn = document.querySelectorAll(".show-details");
@@ -62,7 +67,7 @@ function createMovieCards(data){
             const otherDetailsElem = currentCard.querySelector(".other-details");
             otherDetailsElem.classList.toggle("hide");
             if(btnClickedStatus[index]) {
-                e.currentTarget.innerHTML = "Hide";
+                e.currentTarget.innerHTML = "Show less";
                 btnClickedStatus[index] = false;
                 e.currentTarget.classList.add("active");
             }
@@ -131,3 +136,18 @@ const updateDebounce = debounce((text)=>{
     deleteMovieCards();
     makeApiCall(4,text);
 })
+function addFavorite(favoriteBtn){
+    // console.log(favoriteBtn);
+    const iconElem = favoriteBtn.querySelector(".fa-bookmark");
+    let movieId = favoriteMovies.indexOf(favoriteBtn.id);
+    if(movieId===-1){
+        favoriteBtn.innerHTML = `<i class="fa-solid fa-bookmark"></i>`;
+        favoriteMovies.push(favoriteBtn.id);
+        // console.log(favoriteMovies);
+    }
+    else{
+        favoriteBtn.innerHTML = `<i class="fa-sharp fa-regular fa-bookmark"></i>`;
+        favoriteMovies.splice(movieId,1);
+        // console.log(favoriteMovies);
+    } 
+}
