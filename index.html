@@ -1,34 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Movie Deck Project</title>
-    <link href="./style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="./script.js" defer></script>
-</head>
-<body>
+    <link href="./style.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+
+    <script src="./index.js"></script>
+
+    <!-- jQuery library -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  </head>
+  <body>
     <header>
-        <h1>Movie Deck</h1>
-        <div class="searchContainer">
-            <input type="text" class="search" name="movie" placeholder="search the movie"/>
-            <select class="rating-release">
-                <option value="rating-desc">Rating-Descending</option>
-                <option value="rating-asc">Rating-Ascending</option> 
-                <option value="release-desc">Release-Descending</option>
-                <option value="releas-asc">Release-Ascending</option>
-                <option value="all">All</option>
-            </select>
-        </div>
-        <div class="allOrFavorite">
-            <li class="allMovies active">All Movies</li>
-            <li class="favoriteMovies">Favorite</li>
-    </div>
+      <h1>Movie Deck</h1>
+      <div class="searchContainer">
+        <input
+          type="text"
+          class="search"
+          name="movie"
+          placeholder="search the movie"
+        />
+        <select class="rating-release">
+          <option value="rating-desc">Rating-Descending</option>
+          <option value="rating-asc">Rating-Ascending</option>
+          <option value="release-desc">Release-Descending</option>
+          <option value="releas-asc">Release-Ascending</option>
+          <option value="all">All</option>
+        </select>
+      </div>
     </header>
     <section class="movie-container">
-               
+      <div class="container-fluid">
+        <ul class="nav nav-tabs">
+          <li class="active">
+            <a data-toggle="tab" href="#all-movies">All Movies</a>
+          </li>
+
+          <li>
+            <a data-toggle="tab" href="#favorites">Favorites</a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <div id="all-movies" class="tab-pane fade in active">
+            <div id="all-movies-grid" class="card-grid"></div>
+          </div>
+
+          <div id="favorites" class="tab-pane fade">
+            <div id="favorite-grid" class="card-grid"></div>
+          </div>
+        </div>
+      </div>
     </section>
-</body>
+
+    <footer>&copy; 2023 Movie Deck</footer>
+
+    <!-- jQuery library -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="./script.js"></script>
+  </body>
 </html>
